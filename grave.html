@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>testgrave</title>
+</head>
+
+<body>
+    <canvas id="mon_canvas" height="1000" width="1000"></canvas>
+    <script>
+        let c = document.getElementById("mon_canvas");
+        let ctx = c.getContext("2d");
+
+        function boucleCercle() {
+            for (let repet = 0; repet < 1000; repet++) {
+                ctx.beginPath();
+                ctx.arc(500, 500, repet, Math.PI * 2, 0, true);
+                ctx.stroke();
+            }
+        };
+        boucleCercle();
+    </script>
+</body>
+
+</html>
