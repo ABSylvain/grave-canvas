@@ -10,11 +10,25 @@
 
 <body>
     <script>
-        //**** Declaration de variable a utiliser
+        //***** Declaration de variable a utiliser
+        //***** Position de la souris (a l'instant du clic)
+        let instant = {
+            x: 0,
+            y: 0
+        };
+        //***** Position de la souris
+        let mouse = {
+            x: 0,
+            y: 0
+        };
+        //***** Variable qui deviendras notre ancienne position
+        let last = 0;
+        let speed = 0;
+        let tmt;
         //***** Function pour charger l'image avec js
         function loadImg() {
-            //***** Creation de balise 'img' avec (width, height)
-            img = new Image(500, 500);
+            //***** Creation de balise 'img'
+            img = new Image();
             //***** Lui asigner son chemin
             img.src = "Sierra_HDR_Panorama_DFX8048_2280x819_Q40_wm_mini.jpg";
             //***** Le console.log afficheras la balise
@@ -31,10 +45,18 @@
             //***** Sa taille (tj obligatoire)
             cvs.width = 1000;
             cvs.height = 280;
-            //***** Effet de style degeulasse
+            //***** Effet de style degeulass
             cvs.style.border = "10px solid blue";
-            //***** 
-            ctx.drawImage(img, -50, -100);
+            //***** On lui demande dessiner l'img (image, x, y, width, height)
+            ctx.drawImage(img, 0, 0, 1000, 280);
+        }
+        //***** On vas creer un system pour deplacer notre img sous le click 
+        //      continue par rapport a son ancienne position sur l'axe x
+        function clickImg() {
+            //***** On prend la position de la souris
+            mouse.x = clientX;
+            //***** instant devient la base/le point de depart donc 0
+            instant.x = last;
         }
         //***** On charge la function pour afficher l'img
         loadImg();

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+    <title>Faire défiler une image</title>
+    <style>
+        canvas {
+            background-color: #633
+        }
+    </style>
+    <script type="text/javascript">
+        var cvs;
+        var ctx;
+        var img;
+        var last = 0;
+        var speed = 0;
+        var shift = {
+            x: 0,
+            y: 0
+        };
+        var mouse = {
+            x: 0,
+            y: 0
+        };
+        var tmt;
+
+        function init() {
+            img = new Image();
+            img.src = "EntrainementJS/grave-canvas/Sierra_HDR_Panorama_DFX8048_2280x819_Q40_wm_mini.jpg";
+            img.addEventListener('load', initOnImage, false);
+        }
+
+        function initOnImage() {
+            cvs = document.getElementById('mon-canvas');
+            ctx = cvs.getContext('2d');
+            cvs.width = img.width;
+            cvs.height = img.height;
+            cvs.style.border = "10px solid blue";
+            ctx.drawImage(img, 0, 0);
+            document.onmousedown = onImageClick;
+        }
+
+        function onImageClick(e) {
+            shift.x = last;
+            mouse.x = e.pageX;
+            clearTimeout(tmt); //arrêt de l'éffet eventuel d'amorti en cours.
+            document.onmousemove = stickImage;
+            document.onmouseup = launchImage;
+        }
+
+
+        function stickImage(e) {
+            var xs = e.pageX - mouse.x + shift.x;
+            speed = xs - last; //mémorisation de la vitesse lors de ce déplacement
+            putImage(xs);
+        }
+
+        function launchImage(e) {
+            shift.x = e.pageX - mouse.x + shift.x;
+            document.onmousemove = null;
+            tmt = setTimeout(inertialImage, 100);
+        }
+
+        function putImage(x) {
+            if (x > img.width) {
+                shift.x -= img.width;
+                x -= img.width;
+            } else if (x < 0) {
+                shift.x += img.width;
+                x += img.width;
+            }
+            ctx.drawImage(img, x - img.width, 0, img.width, img.height);
+            ctx.drawImage(img, x, 0, img.width, img.height);
+            last = x;
+        }
+
+        function inertialImage() {
+            speed *= 0.8;
+            if (Math.abs(speed) > 2) {
+                putImage(last + speed);
+                tmt = setTimeout(inertialImage, 100);
+            }
+        }
+
+        window.onload = init;
+    </script>
+</head>
+
+<body>
+    <canvas id="mon-canvas">
+    Ce message indique que ce navigateur est vétuste cat il ne supporte pas <samp>canvas</samp> (IE6, IE7, IE8, ...)
+  </canvas>
+    <p><a href="http://validator.w3.org/check?uri=referer">page xHTML validé !</a></p>
+</body>
+
+</html>
