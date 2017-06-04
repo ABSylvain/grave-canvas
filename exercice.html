@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Exercice Canvas 1</title>
+</head>
+
+<body>
+    <script>
+        //**** Declaration de variable a utiliser
+        //***** Function pour charger l'image avec js
+        function loadImg() {
+            //***** Creation de balise 'img' avec (width, height)
+            img = new Image(500, 500);
+            //***** Lui asigner son chemin
+            img.src = "Sierra_HDR_Panorama_DFX8048_2280x819_Q40_wm_mini.jpg";
+            //***** Le console.log afficheras la balise
+            //console.log(img);
+            //***** On appel la function 'initCanvas' au chargement de l'img
+            img.addEventListener('load', initCanvas);
+        }
+        //***** Creation de la function qui appliqueras le canvas a notre img
+        function initCanvas() {
+            //***** On va lier au canvas html
+            let cvs = document.getElementById('mon-canvas');
+            //***** On lui donne sont context 
+            let ctx = cvs.getContext('2d');
+            //***** Sa taille (tj obligatoire)
+            cvs.width = 1000;
+            cvs.height = 280;
+            //***** Effet de style degeulasse
+            cvs.style.border = "10px solid blue";
+            //***** 
+            ctx.drawImage(img, -50, -100);
+        }
+        //***** On charge la function pour afficher l'img
+        loadImg();
+    </script>
+    <canvas id="mon-canvas">
+        Ce message indique que ce navigateur est vétuste cat il ne supporte pas<samp> canvas</samp> (IE6, IE7, IE8, ...)
+    </canvas>
+</body>
+
+</html>
